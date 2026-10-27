@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الدليل الكامل للمهندس التقني للحاسبات | المهندس ناجي المفرجي</title>
+    
+    <!-- إعدادات تطبيق الويب التقدمي (PWA) -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="دليل المهندس">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230f172a' stroke='%2338bdf8' stroke-width='4'/><text y='68' x='50' text-anchor='middle' font-size='55'>⚙️</text></svg>">
+
+    <style>
+        :root {
+            --bg-main: #0f172a;
+            --bg-sidebar: #1e293b;
+            --bg-card: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #38bdf8;
+            --accent-hover: #0284c7;
+            --border-color: #334155;
+            --code-bg: #090d16;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        [data-theme="light"] {
+            --bg-main: #f1f5f9;
+            --bg-sidebar: #ffffff;
+            --bg-card: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --accent: #0284c7;
+            --accent-hover: #0369a1;
+            --border-color: #e2e8f0;
+            --code-bg: #1e293b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            display: flex;
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* شاشة الترحيب (Splash Screen) */
+        #splashScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg-main);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .splash-logo {
+            font-size: 4rem;
+            animation: pulseLogo 1.5s infinite alternate;
+            margin-bottom: 15px;
+        }
+
+        @keyframes pulseLogo {
+            from { transform: scale(1); }
+            to { transform: scale(1.12); }
+        }
+
+        .splash-title {
+            font-size: 1.5rem;
+            color: var(--accent);
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .splash-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+        }
+
+        .splash-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* القائمة الجانبية */
+        .sidebar {
+            width: 310px;
+            background-color: var(--bg-sidebar);
+            border-left: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            right: 0;
+            top: 0;
+            z-index: 100;
+            box-shadow: -4px 0 15px rgba(0,0,0,0.2);
+        }
+
+        .book-header {
+            padding: 18px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .book-header h1 {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+
+        .book-header p {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            font-weight: bold;
+        }
+
+        .search-box {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 9px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            outline: none;
+            font-size: 0.88rem;
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent);
+        }
+
+        .nav-chapters {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 0;
+            list-style: none;
+        }
+
+        .nav-item {
+            padding: 11px 18px;
+            cursor: pointer;
+            border-right: 4px solid transparent;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+        }
+
+        .nav-item:hover {
+            background-color: rgba(56, 189, 248, 0.08);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background-color: rgba(56, 189, 248, 0.15);
+            border-right-color: var(--accent);
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .sidebar-footer {
+            padding: 14px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            background: rgba(0,0,0,0.1);
+        }
+
+        .credits-badge {
+            color: var(--accent);
+            font-weight: bold;
+            display: block;
+            margin-top: 4px;
+            font-size: 0.9rem;
+        }
+
+        /* المحتوى الرئيسي */
+        .main-content {
+            flex: 1;
+            margin-right: 310px;
+            padding: 25px 35px;
+            max-width: 1150px;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .btn {
+            background-color: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            transition: 0.2s;
+            margin-right: 5px;
+        }
+
+        .btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .chapter-section {
+            display: none;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .chapter-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chapter-title {
+            font-size: 1.65rem;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .chapter-desc {
+            color: var(--text-secondary);
+            margin-bottom: 22px;
+            line-height: 1.6;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 22px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .card h3 {
+            color: var(--text-primary);
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 1.15rem;
+        }
+
+        .card p, .card li {
+            line-height: 1.75;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .card ul {
+            padding-right: 20px;
+        }
+
+        /* الحاسبات والمدخلات */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+        }
+
+        .calc-group {
+            margin-bottom: 12px;
+        }
+
+        .calc-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+            font-size: 0.88rem;
+            font-weight: 600;
+        }
+
+        .calc-input, .calc-select, .calc-textarea {
+            width: 100%;
+            padding: 9px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            font-size: 0.92rem;
+            outline: none;
+        }
+
+        .calc-input:focus, .calc-select:focus, .calc-textarea:focus {
+            border-color: var(--accent);
+        }
+
+        .calc-textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .calc-btn {
+            background-color: var(--accent);
+            color: #0f172a;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.92rem;
+            transition: 0.2s;
+            margin-top: 8px;
+        }
+
+        .calc-btn:hover {
+            background-color: var(--accent-hover);
+            color: #fff;
+        }
+
+        .calc-result {
+            margin-top: 14px;
+            padding: 14px;
+            border-radius: 6px;
+            background-color: rgba(56, 189, 248, 0.08);
+            border: 1px dashed var(--accent);
+            color: var(--text-primary);
+            font-size: 0.92rem;
+            line-height: 1.65;
+        }
+
+        /* الملاحظات والتقارير */
+        .note-item {
+            background-color: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 10px;
+        }
+
+        .note-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            font-size: 0.82rem;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .delete-note-btn {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+            padding: 3px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+
+        .delete-note-btn:hover {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        /* الجداول التقنية */
+        .tech-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 0.88rem;
+        }
+
+        .tech-table th, .tech-table td {
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            text-align: right;
+        }
+
+        .tech-table th {
+            background-color: rgba(56, 189, 248, 0.1);
+            color: var(--accent);
+        }
+
+        .wire-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        /* صناديق الأكواد */
+        .code-container {
+            position: relative;
+            background-color: var(--code-bg);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 12px 0;
+            direction: ltr;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+
+        .code-container pre {
+            color: #e2e8f0;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.88rem;
+            overflow-x: auto;
+            line-height: 1.5;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(255,255,255,0.12);
+            color: #fff;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+
+        .official-report {
+            border: 2px solid var(--accent);
+            border-radius: 10px;
+            padding: 25px;
+            background-color: var(--bg-main);
+            margin-top: 20px;
+        }
+
+        @media print {
+            .sidebar, .top-bar, .no-print { display: none !important; }
+            .main-content { margin-right: 0 !important; padding: 0 !important; max-width: 100% !important; }
+            body { background: #fff !important; color: #000 !important; }
+            .card, .official-report { border: 1px solid #000 !important; box-shadow: none !important; color: #000 !important; background: #fff !important; }
+        }
+
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: relative; }
+            .main-content { margin-right: 0; padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شاشة الترحيب (Splash Screen) باسم المهندس ناجي المفرجي -->
+    <div id="splashScreen">
+        <div class="splash-logo">⚙️</div>
+        <div class="splash-title">الدليل الكامل للمهندس التقني</div>
+        <div class="splash-subtitle">إعداد وبرمجة: المهندس ناجي المفرجي</div>
+        <div class="splash-spinner"></div>
+    </div>
+
+    <!-- القائمة الجانبية للفهرس الشامل -->
+    <aside class="sidebar">
+        <div class="book-header">
+            <h1>📘 الدليل الكامل للمهندس التقني</h1>
+            <p>الموسوعة الهندسية الشاملة (PWA v3.0)</p>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="🔍 ابحث في كافة الفصول والحاسبات..." onkeyup="searchBook()">
+        </div>
+
+        <ul class="nav-chapters" id="chapterList">
+            <li class="nav-item active" onclick="openChapter('ch1', this)">🛠️ 1. عتاد الحاسوب والإلكترونيات</li>
+            <li class="nav-item" onclick="openChapter('ch2', this)">🐧 2. إدارة أنظمة Linux</li>
+            <li class="nav-item" onclick="openChapter('ch3', this)">🖥️ 3. إدارة Windows Server</li>
+            <li class="nav-item" onclick="openChapter('ch4', this)">🌐 4. الشبكات والبروتوكولات</li>
+            <li class="nav-item" onclick="openChapter('ch5', this)">🐍 5. البرمجة والأتمتة (Python)</li>
+            <li class="nav-item" onclick="openChapter('ch6', this)">⚙️ 6. الأنظمة المدمجة والمصاعد</li>
+            <li class="nav-item" onclick="openChapter('ch7', this)">🧮 7. الحاسبات الهندسية الشاملة (19 أداة)</li>
+            <li class="nav-item" onclick="openChapter('ch8', this)">📋 8. مرجع أوامر السيرفرات السريع</li>
+            <li class="nav-item" onclick="openChapter('ch9', this)">🔌 9. مخططات التوصيل والـ Pinouts</li>
+            <li class="nav-item" onclick="openChapter('ch10', this)">📄 10. تقارير الصيانة والنسخ الاحتياطي</li>
+        </ul>
+
+        <div class="sidebar-footer">
+            حقوق البرمجة والتصميم والتأليف
+            <span class="credits-badge">المهندس ناجي المفرجي</span>
+        </div>
+    </aside>
+
+    <!-- منطقة قراءة الكتاب -->
+    <main class="main-content">
+        <div class="top-bar">
+            <div><strong>الموسوعة الهندسية المتكاملة</strong> | <span style="color:var(--success);">⚡ وضع الحقل بدون إنترنت (Offline)</span></div>
+            <div id="topBarActions">
+                <button class="btn" onclick="toggleTheme()">🌓 تبديل المظهر</button>
+                <button class="btn" onclick="window.print()">🖨️ طباعة / PDF</button>
+            </div>
+        </div>
+
+        <!-- الفصل الأول: الهاردوير والإلكترونيات -->
+        <section id="ch1" class="chapter-section active">
+            <h2 class="chapter-title">الفصل الأول: هندسة عتاد الحاسوب والصيانة الإلكترونية</h2>
+            <p class="chapter-desc">مرجع الفحص الميداني للوحات الأم، دوائر التغذية (ATX Power Supply)، وصيانة الشاشات والمركبات السطحية (SMD).</p>
+
+            <div class="card">
+                <h3>1. قيم الفولتيات القياسية في مزود الطاقة (ATX Power Supply)</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr><th>لون السلك</th><th>الجهد القياسي</th><th>السماحية</th><th>الوظيفة الأساسية في اللوحة</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>الأصفر (Yellow)</td><td>+12V DC</td><td>±5% (11.4V - 12.6V)</td><td>تغذية المعالج (VRM)، البطاقات الرسومية، والمحركات</td></tr>
+                        <tr><td>الأحمر (Red)</td><td>+5V DC</td><td>±5% (4.75V - 5.25V)</td><td>تغذية منافذ USB، دوائر المنطق، والأقراص</td></tr>
+                        <tr><td>البرتقالي (Orange)</td><td>+3.3V DC</td><td>±5% (3.14V - 3.47V)</td><td>تغذية الرامات، شريحة BIOS، وبطاقات PCIe</td></tr>
+                        <tr><td>البنفسجي (Purple)</td><td>+5V VSB</td><td>جهد الاستعداد</td><td>تغذية دائرة Super I/O قبل الضغط على زر التشغيل</td></tr>
+                        <tr><td>الأخضر (PS_ON#)</td><td>5V ينخفض إلى 0V</td><td>إشارة تشغيل</td><td>عند توصيله بالسلك الأسود (GND) يعمل مزود الطاقة</td></tr>
+                        <tr><td>الرمادي (PWR_OK)</td><td>+5V DC</td><td>Power Good</td><td>إشارة استقرار الفولتيات للوحة الأم لبدء الإقلاع</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>2. تتبع أعطال اللوحة الأم وصيانة إضاءة الشاشات (LED Backlight)</h3>
+                <ul>
+                    <li><strong>فحص دائرة تنظيم الجهد (VRM):</strong> افحص عدم وجود قصر (Short) بين خط 12V والأرضي قبل تركيب المعالج، وافحص ترانزستورات MOSFET (Gate, Drain, Source).</li>
+                    <li><strong>شحن شريحة BIOS:</strong> عند توقف اللوحة عن عرض البيانات (No Data) مع سلامة الفولتيات، فك شريحة الـ SPI Flash وأعد برمجتها عبر المبرمجة.</li>
+                    <li><strong>صيانة إضاءة الشاشات (LED Backlight):</strong> بعد استبدال مساطر الـ LED بالكامل، يُنصح بتخفيض تيار الـ Driver بنسبة 20% عبر زيادة قيمة مقاومة الإحساس بالتيار (Current Sense Resistor) بجوار آيسي الـ Inverter لمنع احتراق الليدات مستقبلاً.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- الفصل الثاني: لينكس -->
+        <section id="ch2" class="chapter-section">
+            <h2 class="chapter-title">الفصل الثاني: إدارة أنظمة Linux (Ubuntu & CentOS)</h2>
+            <p class="chapter-desc">الأوامر الأساسية والمتقدمة لإدارة السيرفرات، الصلاحيات، الخدمات، وحل المشكلات.</p>
+
+            <div class="card">
+                <h3>1. مقارنة إدارة الحزم والجدار الناري (Ubuntu vs CentOS/RHEL)</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr><th>المهمة</th><th>Debian / Ubuntu</th><th>RHEL / CentOS / Rocky</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>تحديث النظام</td><td><code>sudo apt update && sudo apt upgrade -y</code></td><td><code>sudo dnf update -y</code></td></tr>
+                        <tr><td>تثبيت حزمة</td><td><code>sudo apt install package_name</code></td><td><code>sudo dnf install package_name</code></td></tr>
+                        <tr><td>جدار الحماية</td><td><code>sudo ufw allow 80/tcp</code></td><td><code>sudo firewall-cmd --add-port=80/tcp --permanent</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>2. أوامر الفحص وإدارة النظام اليومية</h3>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">نسخ الكود</button>
+<pre>htop                          # مراقبة العمليات واستهلاك المعالج والذاكرة
+df -h && free -m              # فحص مساحة الأقراص والرام
+sudo systemctl restart nginx  # إعادة تشغيل خدمة
+chmod 755 script.sh           # تعديل الصلاحيات (rwxr-xr-x)
+chown -R user:group /var/www  # تغيير مالك المجلد بالكامل
+ss -tulnp                     # عرض المنافذ المفتوحة والعمليات المرتبطة
+journalctl -xe                # فحص سجلات أخطاء النظام</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- الفصل الثالث: ويندوز سيرفر -->
+        <section id="ch3" class="chapter-section">
+            <h2 class="chapter-title">الفصل الثالث: إدارة Windows Server و Active Directory</h2>
+            <p class="chapter-desc">إدارة الدومين، المستخدمين، السياسات الجماعية (GPO)، وأوامر PowerShell الإدارية.</p>
+
+            <div class="card">
+                <h3>1. أوامر PowerShell الأساسية لمدير النظام</h3>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">نسخ الكود</button>
+<pre>dcdiag /v                                         # فحص صحة Domain Controllers
+gpupdate /force                                   # تحديث السياسات الجماعية فوراً
+gpresult /r                                       # عرض السياسات المطبقة حالياً
+Search-ADAccount -LockedOut | Unlock-ADAccount    # فك قفل الحسابات المقفلة في AD
+netdom query fsmo                                 # معرفة السيرفر الحامل لأدوار FSMO الخمسة</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- الفصل الرابع: الشبكات -->
+        <section id="ch4" class="chapter-section">
+            <h2 class="chapter-title">الفصل الرابع: هندسة الشبكات والبروتوكولات</h2>
+            <p class="chapter-desc">مرجع سريع لتقسيم الشبكات (Subnetting)، البورتات القياسية، وتشخيص الأعطال.</p>
+
+            <div class="card">
+                <h3>1. جدول تقسيم الشبكات السريع (IPv4 CIDR Reference)</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr><th>البادئة (CIDR)</th><th>قناع الشبكة (Subnet Mask)</th><th>الأجهزة المتاحة (Usable Hosts)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>/24</td><td>255.255.255.0</td><td>254 جهاز</td></tr>
+                        <tr><td>/25</td><td>255.255.255.128</td><td>126 جهاز</td></tr>
+                        <tr><td>/26</td><td>255.255.255.192</td><td>62 جهاز</td></tr>
+                        <tr><td>/27</td><td>255.255.255.224</td><td>30 جهاز</td></tr>
+                        <tr><td>/28</td><td>255.255.255.240</td><td>14 جهاز</td></tr>
+                        <tr><td>/30</td><td>255.255.255.252</td><td>2 جهاز (Point-to-Point)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- الفصل الخامس: بايثون -->
+        <section id="ch5" class="chapter-section">
+            <h2 class="chapter-title">الفصل الخامس: البرمجة والأتمتة بلغة Python</h2>
+            <p class="chapter-desc">سكربتات جاهزة للمهندس التقني لفحص الشبكة وقراءة المنافذ التسلسلية (Serial/RS485).</p>
+
+            <div class="card">
+                <h3>1. سكربت فحص السيرفرات وقراءة منفذ Serial للوحات الصناعية</h3>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">نسخ الكود</button>
+<pre>import serial, time
+
+# قراءة بيانات لوحات التحكم عبر منفذ RS-485 / COM
+ser = serial.Serial(port='COM3', baudrate=9600, timeout=1)
+print("بدء الاستماع للوحة التحكم...")
+try:
+    while True:
+        if ser.in_waiting > 0:
+            line = ser.readline().decode('utf-8', errors='ignore').strip()
+            print(f"[بيانات مستلمة]: {line}")
+        time.sleep(0.1)
+except KeyboardInterrupt:
+    ser.close()</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- الفصل السادس: الأنظمة المدمجة والمصاعد -->
+        <section id="ch6" class="chapter-section">
+            <h2 class="chapter-title">الفصل السادس: الأنظمة المدمجة والتحكم الصناعي (مرجع المصاعد الشامل)</h2>
+            <p class="chapter-desc">دليل هندسي متكامل لبرمجيات وأعطال لوحات التحكم للمصاعد: Monarch (Nice3000) و ARCODE (ARKEL).</p>
+
+            <div class="card">
+                <h3>1. لوحات Monarch (Nice3000 / Nice3000+): البارامترات والأعطال</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr><th>الرمز / البارامتر</th><th>الاسم الفني</th><th>الشرح والإجراء الهندسي</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>F0-00</td><td>Control Mode</td><td>0: محرك غير تزامني (Geared)، 1: محرك تزامني (Gearless PM).</td></tr>
+                        <tr><td>F1-01 ~ F1-05</td><td>Motor Nameplate</td><td>إدخال قدرة، جهد، تيار، وتردد المحرك بدقة قبل الـ Autotuning.</td></tr>
+                        <tr><td>FC-01</td><td>Autotuning</td><td>1: تعلم ذاتي مع الحبال، 2: تعلم ذاتي بدون حبال (فك الحبال عن الطنبور).</td></tr>
+                        <tr><td>Err 02 / 03 / 04</td><td>Overcurrent (OC)</td><td>تيار زائد؛ افحص قصر الكابلات، العزل، ووحدة الـ IGBT.</td></tr>
+                        <tr><td>Err 30</td><td>Position Anomaly</td><td>خطأ موقع المصعد؛ افحص الـ Encoder وحساسات التوقف المغناطيسية.</td></tr>
+                        <tr><td>Err 41</td><td>Safety Circuit Open</td><td>انقطاع سلسلة الأمان؛ افحص الفولتية على مدخل الأمان ونقاط الطوارئ.</td></tr>
+                        <tr><td>Err 42 / 43</td><td>Door Lock Fault</td><td>انقطاع قفل الباب أثناء الحركة أو فشل الإغلاق الميكانيكي.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>2. لوحات ARCODE (ARKEL): البرمجة والأعطال الشائعة</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr><th>الرمز / الإعداد</th><th>التوصيف الفني</th><th>خطوات المعالجة والصيانة</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Shaft Learn</td><td>تعليم البئر الآلي</td><td>يُنفذ عبر أداة AREM لقراءة مغناطيسات الطوابق وشريط التوقف.</td></tr>
+                        <tr><td>Er01 / PrC</td><td>Phase Error</td><td>عكس أو سقوط أحد الفازات الرئيسية (L1, L2, L3).</td></tr>
+                        <tr><td>Er10</td><td>Safety Chain (110-140)</td><td>انقطاع دائرة الأمان؛ راقب شاشة AREM لتحديد النقطة الفاصلة(120, 130, 140).</td></tr>
+                        <tr><td>Er20</td><td>Door Limit Fault</td><td>فشل فتح/إغلاق الباب في الوقت المحدد؛ افحص محرك الباب والحساسات.</td></tr>
+                        <tr><td>Er50</td><td>CANbus Error</td><td>خطأ اتصال شبكة CAN؛ افحص الأسلاك (CAN_H, CAN_L) ومقاومة النهاية 120Ω.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- الفصل السابع: جميع الحاسبات الهندسية التفاعلية (19 أداة كاملة) -->
+        <section id="ch7" class="chapter-section">
+            <h2 class="chapter-title">الفصل السابع: الحاسبات الهندسية التفاعلية ودفتر الملاحظات (19 أداة)</h2>
+            <p class="chapter-desc">مجموعة متكاملة من الحاسبات الميدانية والأدوات التفاعلية للمهندس التقني.</p>
+
+            <!-- 1. حاسبة هبوط الجهد ومقطع السلك -->
+            <div class="card">
+                <h3>⚡ 1. حاسبة هبوط الجهد واختيار مقطع السلك (Voltage Drop & Wire Gauge mm²)</h3>
+                <div class="grid-2">
+                    <div class="calc-group"><label>جهد المصدر (V):</label><input type="number" id="vdVolts" class="calc-input" value="12"></div>
+                    <div class="calc-group"><label>التيار المسحوب (Amps):</label><input type="number" id="vdAmps" class="calc-input" value="5"></div>
+                    <div class="calc-group"><label>المسافة ذهاباً (متر):</label><input type="number" id="vdLen" class="calc-input" value="30"></div>
+                    <div class="calc-group">
+                        <label>مقطع السلك النحاسي (mm²):</label>
+                        <select id="vdCross" class="calc-select">
+                            <option value="0.5">0.5 mm²</option>
+                            <option value="0.75">0.75 mm²</option>
+                            <option value="1.0">1.0 mm²</option>
+                            <option value="1.5" selected>1.5 mm²</option>
+                            <option value="2.5">2.5 mm²</option>
+                            <option value="4.0">4.0 mm²</option>
+                            <option value="6.0">6.0 mm²</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="calc-btn" onclick="calculateVoltageDrop()">احسب هبوط الجهد والسلك الموصى به</button>
+                <div id="vdResult" class="calc-result" style="display:none;"></div>
+            </div>
+
+            <!-- 2. محول الأنظمة العددية الفوري -->
+            <div class="card">
+                <h3>🔢 2. محوّل الأنظمة العددية الفوري (Decimal / Binary / Hex / Octal)</h3>
+                <div class="grid-2">
+                    <div class="calc-group"><label>العشري (Decimal):</label><input type="text" id="numDec" class="calc-input" placeholder="255" oninput="convertNumber('dec', this.value)"></div>
+                    <div class="calc-group"><label>الثنائي (Binary):</label><input type="text" id="numBin" class="calc-input" placeholder="11111111" oninput="convertNumber('bin', this.value)"></div>
+                    <div class="calc-group"><label>السداسي عشري (Hex):</label><input type="text" id="numHex" class="calc-input" placeholder="FF" oninput="convertNumber('hex', this.value)"></div>
+                    <div class="calc-group"><label>الثماني (Octal):</label><input type="text" id="numOct" class="calc-input" placeholder="377" oninput="convertNumber('oct', this.value)"></div>
+                </div>
+            </div>
+
+            <!-- 3. دفتر الملاحظات الميداني -->
+            <div class="card">
+                <h3>📝 3. دفتر ملاحظات وأعطال المهندس الميداني (Field Notes)</h3>
+                <div class="calc-group"><label>عنوان الملاحظة أو العطل:</label><input type="text" id="noteTitle" class="calc-input" placeholder="مثلاً: صيانة لوحة مصعد Monarch - عطل Err 41"></div>
+                <div class="calc-group"><label>التفاصيل:</label><textarea id="noteContent" class="calc-textarea" placeholder="اكتب التفاصيل هنا..."></textarea></div>
+                <div style="display:flex; gap:10px;">
+                    <button class="calc-btn" onclick="saveNote()" style="flex:2; margin-top:0;">حفظ الملاحظة على الهاتف</button>
+                    <button class="btn" onclick="exportNotesTxt()" style="flex:1; border-color:var(--accent); color:var(--accent);">📥 تصدير TXT</button>
+                </div>
+                <div style="margin-top: 20px;" id="notesContainer"></div>
+            </div>
+
+            <!-- 4. أداة توثيق VLANs -->
+            <div class="card">
+                <h3>🌐 4. أداة توثيق وتنظيم شبكات الـ VLANs وبورتات السويتشات</h3>
+                <div class="grid-2">
+                    <div class="calc-group"><label>رقم البورت:</label><input type="text" id="vlanPort" class="calc-input" placeholder="Gi0/1"></div>
+                    <div class="calc-group"><label>رقم واسم الـ VLAN:</label><input type="text" id="vlanName" class="calc-input" placeholder="VLAN 10 - Data"></div>
+                    <div class="calc-group"><label>النوع:</label><select id="vlanMode" class="calc-select"><option value="Access">Access</option><option value="Trunk">Trunk</option></select></div>
+                    <div class="calc-group"><label>الوصف:</label><input type="text" id="vlanDesc" class="calc-input" placeholder="الجهاز الموصول"></div>
+                </div>
+                <button class="calc-btn" onclick="saveVlanPort()">إضافة وتوثيق البورت</button>
+                <div style="margin-top: 15px;" id="vlanTableContainer"></div>
+            </div>
+
+            <!-- 5. حاسبة Subnetting -->
+            <div class="card">
+                <h3>🧮 5. حاسبة تقسيم الشبكات (IPv4 Subnet Calculator)</h3>
+                <div class="calc-group">
+                    <label>اختر بادئة الشبكة (CIDR Prefix):</label>
+                    <select id="subnetPrefix" class="calc-select">
+                        <option value="24">/24 (255.255.255.0 - 254 جهاز)</option>
+                        <option value="25">/25 (255.255.255.128 - 126 جهاز)</option>
+                        <option value="26">/26 (255.255.255.192 - 62 جهاز)</option>
+                        <option value="27">/27 (255.255.255.224 - 30 جهاز)</option>
+                        <option value="28">/28 (255.255.255.240 - 14 جهاز)</option>
+                        <option value="29">/29 (255.255.255.248 - 6 أجهزة)</option>
+                        <option value="30">/30 (255.255.255.252 - 2 جهاز)</option>
+                    </select>
+                </div>
+                <button class="calc-btn" onclick="calculateSubnet()">احسب تفاصيل الشبكة</button>
+                <div id="subnetResult" class="calc-result" style="display:none;"></div>
+            </div>
+
+            <!-- 6. حاسبة قانون أوم -->
+            <div class="card">
+                <h3>⚡ 6. حاسبة قانون أوم (Ohm's Law Calculator)</h3>
+                <div class="grid-2">
+                    <div class="calc-group"><label>الجهد (Volts):</label><input type="number" id="ohmVoltage" class="calc-input" placeholder="اتركه فارغاً لحسابه"></div>
+                    <div class="calc-group"><label>التيار (Amperes):</label><input type="number" id="ohmCurrent" class="calc-input" placeholder="اتركه فارغاً لحسابه"></div>
+                    <div class="calc-group"><label>المقاومة (Ohms):</label><input type="number" id="ohmResistance" class="calc-input" placeholder="اتركه فارغاً لحسابه"></div>
+                </div>
+                <button class="calc-btn" onclick="calculateOhm()">احسب القيمة المجهولة</button>
+                <div id="ohmResult" class="calc-result" style="display:none;"></div>
+            </div>
+
+            <!-- 7. حاسبة مقاومة الليدات -->
+            <div class="card">
+                <h3>💡 7. حاسبة مقاومة حماية الليدات (LED Resistor Calculator)</h3>
+                <div class="grid-2">
+                    <div class="calc-group"><label>جهد المصدر (V):</label><input type="number" id="ledVs" class="calc-input" value="12"></div>
+                    <div class="calc-group"><label>جهد الليد Vf (V):</label><input type="number" id="ledVf" class="calc-input" value="2.2" step="0.1"></div>
+                    <div class="calc-group"><label>تيار الليد (mA):</label><input type="number" id="ledCurrent" class="calc-input" value="20"></div>
+                </div>
+                <button class="calc-btn" onclick="calculateLedResistor()">احسب المقاومة</button>
+                <div id="ledResult" class="calc-result" style="display:none;"></div>
+            </div>
+
+            <!-- 8. حاسبة ألوان المقاومات -->
+            <div class="card">
+                <h3>🎨 8. حاسبة شفرة ألوان المقاومات (4-Band Resistor)</h3>
+                <div class="grid-2">
+                    <div class="calc-group"><label>اللون الأول:</label><select id="band1" class="calc-select"><option value="0">أسود (0)</option><option value="1" selected>بني (1)</option><option value="2">أحمر (2)</option><option value="3">برتقالي (3)</option><option value="4">أصفر (4)</option><option value="5">أخضر (5)</option><option value="6">أزرق (6)</option><option value="7">بنفسجي (7)</option><option value="8">رمادي (8)</option><option value="9">أبيض (9)</option></select></div>
+                    <div class="calc-group"><label>اللون الثاني:</label><select id="band2" class="calc-select"><option value="0" selected>أسود (0)</option><option value="1">بني (1)</option><option value="2">أحمر (2)</option><option value="3">برتقالي (3)</option><option value="4">أصفر (4)</option><option value="5">أخضر (5)</option><option value="6">أزرق (6)</option><option value="7">بنفسجي (7)</option><option value="8">رمادي (8)</option><option value="9">أبيض (9)</option></select></div>
+                    <div class="calc-group"><label>المضرب (Multiplier):</label><select id="band3" class="calc-select"><option value="1">أسود (×1)</option><option value="10">بني (×10)</option><option value="100" selected>أحمر (×100)</option><option value="1000">برتقالي (×1k)</option><option value="10000">أصفر (×10k)</option><option value="100000">أخضر (×100k)</option><option value="1000000">أزرق (×1M)</option></select></div>
+                    <div class="calc-group"><label>التفاوت:</label><select id="band4" class="calc-select"><option value="±1%">بني (±1%)</option><option value="±5%" selected>ذهبي (±5%)</option><option value="±10%">فضي (±10%)</option></select></div>
+                </div>
+                <button class="calc-btn" onclick="calculateResistorColor()">احسب قيمة المقاومة</button>
+                <div id="resistorResult" class="calc-result" style="display:none;"></div>
+            </div>
+
+            <!-- 9. حاسبة زمن التحميل -->
+            <div class="card">
+                <h3>📥 9. حاسبة زمن التحميل وسرعة نقل البيانات (Download Time)</h3>
+                <div class="grid-2">
+                    <div class="calc-group"><label>حجم الملف (GB):</label><input type="number" id="fileSize" class="calc-input" value="10" step="0.5"></div>
+                    <div class="calc-group"><label>سرعة الإنترنت (Mbps):</label><input type="number" id="netSpeed" class="calc-input" value="50"></div>
+                </div>
+                <button class="calc-btn" onclick="calculateDownloadTime()">احسب زمن التحميل</button>
+                <div id="downloadResult" class="calc-result" style="display:none;"></div>
+            </div>
+
+            <!-- 10. حاسبة Throughput -->
+            <div class="card">
+                <h3>📊 10. حاسبة معدل النقل الفعلي (Throughput) وحجم الحزم</h3>
+                <div class="grid-2">
+                    <div class="calc-group"><label>سرعة الرابط (Mbps):</label><input type="number" id="linkBw" class="calc-input" value="100"></div>
+                    <div class="calc-group"><label>نسبة الفاقد (% Overhead):</label><input type="number" id="overheadPct" class="calc-input" value="20"></div>
+                    <div class="calc-group"><label>حجم الحمولة (Bytes):</label><input type="number" id="packetSize" class="calc-input" value="1460"></div>
+                </div>
+                <button class="calc-btn" onclick="calculateThroughput()">احسب الـ Throughput</button>
+                <div id="throughputResult" class="calc-result" style="display:none;"></div>
+            </div>
+
+            <!-- 11. حاسبة استهلاك الطاقة للسيرفرات -->
+            <div class="card">
+                <h3>🔌 11. حاسبة استهلاك الطاقة والقدرة الكهربائية (PC & Server Wattage)</h3>
+                <div class="grid-2">
+                    <div class="calc-group"><label>المعالج (CPU Watts):</label><input type="number" id="cpuWatts" class="calc-input" value="125"></div>
+                    <div class="calc-group"><label>الكرت الرسومي / إضافات (Watts):</label><input type="number" id="gpuWatts" class="calc-input" value="200"></div>
+                    <div class="calc-group"><label>اللوحة والأقراص (Watts):</label><input type="number" id="otherWatts" class="calc-input" value="75"></div>
+                    <div class="calc-group"><label>ساعات التشغيل يومياً:</label><input type="number" id="runHours" class="calc-input" value="24"></div>
+                </div>
+                <button class="calc-btn" onclick="calculatePowerUsage()">احسب القدرة والاستهلاك</button>
+                <div id="powerResult" class="calc-result" style="display:none;"></div>
+            </div>
+
+            <!-- 12. حاسبة RAID -->
+            <div class="card">
+                <h3>💽 12. حاسبة مصفوفات الأقراص (RAID Capacity & Fault Tolerance)</h3>
+                <div class="grid-2">
+                    <div class="calc-group"><label>مستوى الـ RAID:</label><select id="raidLevel" class="calc-select"><option value="0">RAID 0</option><option value="1">RAID 1</option><option value="5" selected>RAID 5</option><option value="10">RAID 10</option></select></div>
+                    <div class="calc-group"><label>عدد الأقراص:</label><input type="number" id="raidCount" class="calc-input" value="4" min="2"></div>
+                    <div class="calc-group"><label>سعة القرص الواحد (TB):</label><input type="number" id="driveSize" class="calc-input" value="2" step="0.5"></div>
+                </div>
+                <button class="calc-btn" onclick="calculateRaid()">احسب السعة الصافية</button>
+                <div id="raidResult" class="calc-result" style="display:none;"></div>
+            </div>
+
+            <!-- 13. حاسبة أداء المعالجات IPC -->
+            <div class="card">
+                <h3>💻 13. حاسبة أداء المعالجات ومعدل تعليمات الدورة (CPU IPC)</h3>
+                <div class="grid-2">
+                    <div class="calc-group"><label>التردد (GHz):</label><input type="number" id="cpuClock" class="calc-input" value="3.5" step="0.1"></div>
+                    <div class="calc-group"><label>عدد الأنوية:</label><input type="number" id="cpuCores" class="calc-input" value="8"></div>
+                    <div class="calc-group"><label>معامل IPC:</label><input type="number" id="cpuIpcVal" class="calc-input" value="1.5" step="0.1"></div>
+                </div>
+                <button class="calc-btn" onclick="calculateCPUPerformance()">احسب الأداء الكلي</button>
+                <div id="cpuResult" class="calc-result" style="display:none;"></div>
+            </div>
+
+            <!-- 14. حاسبة فقدان الإشارة الضوئية والنطاق الضوئي -->
+            <div class="card">
+                <h3>🔦 14. حاسبة ميزانية الفقد والنطاق الترددي للألياف الضوئية (Fiber Optic Link & Bandwidth)</h3>
+                <div class="grid-2">
+                    <div class="calc-group"><label>نوع الألياف:</label><select id="fiberType" class="calc-select"><option value="single">Single-Mode (0.35 dB/km)</option><option value="multi850">Multi-Mode 850nm (3.0 dB/km)</option></select></div>
+                    <div class="calc-group"><label>طول الكابل (km):</label><input type="number" id="fiberKm" class="calc-input" value="5" step="0.5"></div>
+                    <div class="calc-group"><label>عدد نقاط اللحام (Splices):</label><input type="number" id="fiberSplices" class="calc-input" value="2"></div>
+                    <div class="calc-group"><label>تقنية الإرسال:</label><select id="fTech" class="calc-select"><option value="2.5">GPON (2.5 Gbps)</option><option value="10">XGS-PON (10 Gbps)</option><option value="100">DWDM (100 Gbps)</option></select></div>
+                </div>
+                <button class="calc-btn" onclick="calculateFiberAll()">احسب الفاقد والسرعة الصافية</button>
+                <div id="fiberResult" class="calc-result" style="display:none;"></div>
+            </div>
+
+            <!-- 15. حاسبة النسخ الاحتياطي Backup -->
+            <div class="card">
+                <h3>💾 15. حاسبة تقدير مساحة النسخ الاحتياطية (Backup Storage)</h3>
+                <div class="grid-2">
+                    <div class="calc-group"><label>حجم النسخة الكاملة (GB):</label><input type="number" id="backupSize" class="calc-input" value="500"></div>
+                    <div class="calc-group"><label>نسبة التغير اليومي (%):</label><input type="number" id="backupChangeRate" class="calc-input" value="5"></div>
+                    <div class="calc-group"><label>أيام الدورة:</label><input type="number" id="backupDays" class="calc-input" value="7"></div>
+                </div>
+                <button class="calc-btn" onclick="calculateBackupStorage()">احسب المساحة المطلوبة</button>
+                <div id="backupResult" class="calc-result" style="display:none;"></div>
+            </div>
+
+            <!-- 16. حاسبة UPS الشاملة (الوقت، السعة، وعمر البطارية) -->
+            <div class="card">
+                <h3>🔋 16. منظومة حسابات الـ UPS والبطاريات الشاملة (السعة، وقت التشغيل، والعمر الافتراضي)</h3>
+                <div class="grid-2">
+                    <div class="calc-group"><label>الحمل المتصل (Watts):</label><input type="number" id="upsLoad" class="calc-input" value="400"></div>
+                    <div class="calc-group"><label>جهد البطاريات (V):</label><input type="number" id="upsVoltage" class="calc-input" value="24"></div>
+                    <div class="calc-group"><label>سعة البطارية (Ah):</label><input type="number" id="upsAh" class="calc-input" value="100"></div>
+                    <div class="calc-group"><label>درجة حرارة الغرفة (°C):</label><input type="number" id="bTemp" class="calc-input" value="25"></div>
+                </div>
+                <button class="calc-btn" onclick="calculateUpsAll()">احسب سعة VA ووقت التشغيل وعمر البطارية</button>
+                <div id="upsResult" class="calc-result" style="display:none;"></div>
+            </div>
+
+            <!-- 17. حاسبة التبريد BTU + كاميرات CCTV -->
+            <div class="card">
+                <h3>❄️📹 17. حاسبة تبريد غرف السيرفرات (BTU) وتخزين كاميرات المراقبة (CCTV)</h3>
+                <div class="grid-2">
+                    <div class="calc-group"><label>طاقة أجهزة السيرفر للتبريد (Watts):</label><input type="number" id="btuWatts" class="calc-input" value="2500"></div>
+                    <div class="calc-group"><label>عدد كاميرات المراقبة (1080p H.265):</label><input type="number" id="cctvCount" class="calc-input" value="8"></div>
+                    <div class="calc-group"><label>أيام تسجيل الكاميرات:</label><input type="number" id="cctvDays" class="calc-input" value="30"></div>
+                </div>
+                <button class="calc-btn" onclick="calculateBtuAndCctv()">احسب التبريد وتخزين الكاميرات</button>
+                <div id="btuCctvResult" class="calc-result" style="display:none;"></div>
+            </div>
+
+            <!-- 18. حاسبة تكاليف الكابلات وفحص Ping -->
+            <div class="card">
+                <h3>📏📶 18. حاسبة تكاليف كابلات المشاريع وتشخيص زمن الاستجابة (Ping)</h3>
+                <div class="grid-2">
+                    <div class="calc-group"><label>عدد نقاط الشبكة:</label><input type="number" id="cPoints" class="calc-input" value="24"></div>
+                    <div class="calc-group"><label>متوسط طول النقطة (متر):</label><input type="number" id="cLen" class="calc-input" value="35"></div>
+                    <div class="calc-group"><label>سعر البكرة (305 متر):</label><input type="number" id="cCost" class="calc-input" value="120"></div>
+                    <div class="calc-group"><label>زمن الـ Ping المقاس (ms):</label><input type="number" id="pingValue" class="calc-input" value="25"></div>
+                </div>
+                <button class="calc-btn" onclick="calculateProjectAndPing()">احسب البكرات والتكلفة وحلل الـ Ping</button>
+                <div id="projPingResult" class="calc-result" style="display:none;"></div>
+            </div>
+
+            <!-- 19. مولد كلمات المرور وتشفير Hashes -->
+            <div class="card">
+                <h3>🔐 19. أداة توليد كلمات المرور الآمنة وتشفير الـ Hashes (SHA-256)</h3>
+                <div class="grid-2">
+                    <div class="calc-group">
+                        <label>توليد كلمة مرور عشوائية (16 رمزاً):</label>
+                        <input type="text" id="generatedPassOutput" class="calc-input" readonly>
+                        <button class="calc-btn" onclick="generatePassword()">توليد كلمة مرور جديدة</button>
+                    </div>
+                    <div class="calc-group">
+                        <label>أدخل نصاً لحساب SHA-256 Hash:</label>
+                        <input type="text" id="plainTextInput" class="calc-input" placeholder="اكتب النص هنا..." oninput="calculateHash()">
+                        <div id="hashResult" class="calc-result" style="display:none;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- الفصل الثامن: مرجع السيرفرات وأنظمة التشغيل السريع -->
+        <section id="ch8" class="chapter-section">
+            <h2 class="chapter-title">الفصل الثامن: مرجع السيرفرات وأنظمة التشغيل السريع (Cheatsheet)</h2>
+            <p class="chapter-desc">دليل مرجعي شامل وسريع لأهم أوامر الإدارة، الصيانة، فحص الشبكة، واستكشاف الأخطاء في Linux و Windows Server.</p>
+
+            <div class="card">
+                <h3>🐧 1. مرجع سريع لأوامر Linux</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr><th>التصنيف</th><th>الأمر</th><th>الوصف الميداني</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>مراقبة الموارد</td><td><code>htop</code> / <code>df -h</code> / <code>free -m</code></td><td>مراقبة المعالج، المساحة التخزينية، والذاكرة العشوائية.</td></tr>
+                        <tr><td>إدارة الخدمات</td><td><code>systemctl status/restart [service]</code></td><td>فحص أو إعادة تشغيل خدمات السيرفر.</td></tr>
+                        <tr><td>فحص الشبكة</td><td><code>ss -tulnp</code> / <code>ip a</code></td><td>عرض المنافذ المفتوحة وعناوين IP.</td></tr>
+                        <tr><td>البحث عن الملفات الضخمة</td><td><code>find / -type f -size +100M</code></td><td>اكتشاف الملفات التي تسبب امتلاء القرص الصلب.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>🖥️ 2. مرجع سريع لأوامر Windows Server & PowerShell</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr><th>المهمة</th><th>الأمر</th><th>الوصف</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>فحص الدومين</td><td><code>dcdiag /v</code> و <code>repadmin /showrepl</code></td><td>فحص صحة الـ Domain Controller والمزامنة.</td></tr>
+                        <tr><td>تحديث السياسات</td><td><code>gpupdate /force</code> و <code>gpresult /r</code></td><td>تحديث وعرض سياسات المجموعة المطبقة.</td></tr>
+                        <tr><td>إصلاح النظام</td><td><code>sfc /scannow</code> و <code>DISM /Online /Cleanup-Image /RestoreHealth</code></td><td>فحص وإصلاح ملفات نظام ويندوز التالفة.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- الفصل التاسع: مخططات التوصيل والـ Pinouts وأكواد الأعطال -->
+        <section id="ch9" class="chapter-section">
+            <h2 class="chapter-title">الفصل التاسع: مخططات التوصيل القياسية (Pinouts) وأكواد BIOS</h2>
+            <p class="chapter-desc">مرجع بصري وجدولي مباشر لترتيب أسلاك الشبكة، منافذ الاتصال الصناعي، وأكواد تشخيص اللوحة الأم.</p>
+
+            <div class="card">
+                <h3>🌐 1. مخطط ترتيب ألوان كابلات الشبكة (RJ45 T568B vs T568A)</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr><th>رقم البن (Pin)</th><th>المعيار القياسي (T568B)</th><th>المعيار البديل (T568A)</th><th>الوظيفة</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Pin 1</td><td><span class="wire-badge" style="background:#f97316;color:#fff;">أبيض برتقالي</span></td><td><span class="wire-badge" style="background:#22c55e;color:#fff;">أبيض أخضر</span></td><td>إرسال بيانات (TX+)</td></tr>
+                        <tr><td>Pin 2</td><td><span class="wire-badge" style="background:#ea580c;color:#fff;">برتقالي</span></td><td><span class="wire-badge" style="background:#16a34a;color:#fff;">أخضر</span></td><td>إرسال بيانات (TX-)</td></tr>
+                        <tr><td>Pin 3</td><td><span class="wire-badge" style="background:#22c55e;color:#fff;">أبيض أخضر</span></td><td><span class="wire-badge" style="background:#f97316;color:#fff;">أبيض برتقالي</span></td><td>استقبال بيانات (RX+)</td></tr>
+                        <tr><td>Pin 4</td><td><span class="wire-badge" style="background:#2563eb;color:#fff;">أزرق</span></td><td><span class="wire-badge" style="background:#2563eb;color:#fff;">أزرق</span></td><td>PoE / Gigabit</td></tr>
+                        <tr><td>Pin 5</td><td><span class="wire-badge" style="background:#3b82f6;color:#fff;">أبيض أزرق</span></td><td><span class="wire-badge" style="background:#3b82f6;color:#fff;">أبيض أزرق</span></td><td>PoE / Gigabit</td></tr>
+                        <tr><td>Pin 6</td><td><span class="wire-badge" style="background:#16a34a;color:#fff;">أخضر</span></td><td><span class="wire-badge" style="background:#ea580c;color:#fff;">برتقالي</span></td><td>استقبال بيانات (RX-)</td></tr>
+                        <tr><td>Pin 7</td><td><span class="wire-badge" style="background:#a16207;color:#fff;">أبيض بني</span></td><td><span class="wire-badge" style="background:#a16207;color:#fff;">أبيض بني</span></td><td>PoE / Gigabit</td></tr>
+                        <tr><td>Pin 8</td><td><span class="wire-badge" style="background:#713f12;color:#fff;">بني</span></td><td><span class="wire-badge" style="background:#713f12;color:#fff;">بني</span></td><td>PoE / Gigabit</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>🔌 2. أقطاب منفذ الاتصال التسلسلي والصناعي (DB9 RS-232 & RS-485)</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr><th>رقم البن (DB9)</th><th>بروتوكول RS-232</th><th>بروتوكول RS-485 / Modbus</th><th>وظيفة القطب</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Pin 2</td><td>RXD (Receive Data)</td><td>-</td><td>استقبال البيانات التسلسلية</td></tr>
+                        <tr><td>Pin 3</td><td>TXD (Transmit Data)</td><td>Data+ (A) في بعض المحولات</td><td>إرسال البيانات التسلسلية</td></tr>
+                        <tr><td>Pin 5</td><td>GND (Signal Ground)</td><td>GND (مرجع الأرضي المشترك)</td><td>الأرضي المشترك لمنع التشويش</td></tr>
+                        <tr><td>أطراف صناعية</td><td>-</td><td>A+ / B- (و CAN_H / CAN_L)</td><td>خطوط الإشارة التفاضلية (توضع مقاومة 120Ω في الأطراف)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>🔊 3. دليل تشخيص صفارات وأكواد الـ BIOS (POST Beep & Hex Codes)</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr><th>الصفارة أو الكود (Hex)</th><th>العطل المشخّص</th><th>الإجراء الهندسي السريع</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>صفارة واحدة قصيرة</td><td>النظام سليم (POST Passed)</td><td>إقلاع طبيعي للوحة الأم.</td></tr>
+                        <tr><td>صفارات طويلة متكررة</td><td>عطل في الذاكرة العشوائية (RAM Error)</td><td>نظف بنك الرام أو جرب شريحة أخرى.</td></tr>
+                        <tr><td>صفارة طويلة + 3 قصيرة</td><td>عطل في البطاقة الرسومية (VGA Error)</td><td>افحص كرت الشاشة أو مدخل PCIe وتغذية الكرت.</td></tr>
+                        <tr><td>كود 00 أو FF على كرت الفحص</td><td>المعالج لا يعمل أو BIOS تالف</td><td>افحص دائرة تغذية المعالج (VRM) واشحن الـ BIOS.</td></tr>
+                        <tr><td>كود 53 أو C1 أو D4</td><td>عدم قراءة الرام (Memory Detection)</td><td>افحص فولتية الرام (1.2V لـ DDR4 أو 1.35V لـ DDR3L).</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- الفصل العاشر: تقارير الصيانة الرسمية والنسخ الاحتياطي الشامل -->
+        <section id="ch10" class="chapter-section">
+            <h2 class="chapter-title">الفصل العاشر: مولد تقارير الصيانة الرسمي وإدارة النسخ الاحتياطي (JSON)</h2>
+            <p class="chapter-desc">أداة إصدار تقارير الفحص والصيانة الميدانية باسم المهندس ناجي المفرجي، مع ميزة حفظ واستعادة كافة بيانات التطبيق.</p>
+
+            <div class="card">
+                <div class="no-print">
+                    <h3>📄 1. مولد تقارير الصيانة والفحص الهندسي (Maintenance Report Generator)</h3>
+                    <div class="grid-2">
+                        <div class="calc-group"><label>اسم العميل أو الموقع:</label><input type="text" id="repClient" class="calc-input" placeholder="مثال: شركة النخبة / بناية المنصور"></div>
+                        <div class="calc-group"><label>نوع الجهاز / المنظومة / اللوحة:</label><input type="text" id="repDevice" class="calc-input" placeholder="مثال: لوحة مصعد ARCODE / سيرفر Dell PowerEdge"></div>
+                        <div class="calc-group"><label>العطل المشخّص:</label><input type="text" id="repFault" class="calc-input" placeholder="مثال: انقطاع دائرة الأمان Er10 / تلف مساطر الإضاءة"></div>
+                        <div class="calc-group"><label>القطع المستبدلة والتكلفة:</label><input type="text" id="repCost" class="calc-input" placeholder="مثال: استبدال كونتاكتور + برمجة - 150,000 د.ع"></div>
+                    </div>
+                    <div class="calc-group">
+                        <label>الإجراء الهندسي المتخذ والتوصيات:</label>
+                        <textarea id="repAction" class="calc-textarea" placeholder="اكتب تفاصيل الصيانة والاختبار النهائي..."></textarea>
+                    </div>
+                    <button class="calc-btn" onclick="generateReport()">توليد التقرير الرسمي للطباعة</button>
+                </div>
+
+                <div id="officialReportBox" class="official-report" style="display:none;">
+                    <div style="text-align:center; border-bottom:2px solid var(--accent); padding-bottom:12px; margin-bottom:15px;">
+                        <h2 style="color:var(--accent);">تقرير فحص وصيانة هندسي رسمي</h2>
+                        <p><strong>إعداد وإشراف: المهندس ناجي المفرجي</strong> | مهندس تقني حاسبات وأنظمة إلكترونية</p>
+                        <p id="repDateOut" style="font-size:0.85rem;"></p>
+                    </div>
+                    <p><strong>العميل / الموقع:</strong> <span id="outClient"></span></p>
+                    <p><strong>الجهاز / المنظومة:</strong> <span id="outDevice"></span></p>
+                    <p><strong>العطل المشخّص:</strong> <span id="outFault"></span></p>
+                    <p><strong>الإجراء الهندسي المتخذ:</strong> <span id="outAction"></span></p>
+                    <p><strong>القطع المستبدلة والتكلفة:</strong> <span id="outCost"></span></p>
+                    <div style="margin-top:25px; display:flex; justify-content:space-between; border-top:1px dashed var(--border-color); padding-top:15px;">
+                        <div>توقيع المستلم: ........................</div>
+                        <div><strong>توقيع المهندس: المهندس ناجي المفرجي</strong></div>
+                    </div>
+                    <button class="calc-btn no-print" onclick="window.print()" style="margin-top:15px;">🖨️ طباعة التقرير الآن أو حفظه كـ PDF</button>
+                </div>
+            </div>
+
+            <div class="card no-print">
+                <h3>🔄 2. النسخ الاحتياطي واستعادة بيانات التطبيق (JSON Backup & Restore)</h3>
+                <p>احفظ نسخة احتياطية شاملة لجميع ملاحظاتك الميدانية وجداول الـ VLAN الموثقة في ملف <code>JSON</code>، أو استعدها في أي وقت:</p>
+                <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:12px;">
+                    <button class="calc-btn" onclick="exportFullBackupJSON()" style="margin-top:0;">⬇️ تصدير قاعدة البيانات الشاملة (JSON)</button>
+                    <label class="btn" style="cursor:pointer; border-color:var(--success); color:var(--success); display:inline-block;">
+                        ⬆️ استيراد ملف نسخة احتياطية (JSON)
+                        <input type="file" accept=".json" style="display:none;" onchange="importFullBackupJSON(event)">
+                    </label>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // إخفاء شاشة الترحيب بسلاسة بعد التحميل
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splashScreen');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.style.display = 'none', 500);
+            }, 1200);
+        });
+
+        // 1. حاسبة هبوط الجهد وقطر السلك
+        function calculateVoltageDrop() {
+            const V = parseFloat(document.getElementById('vdVolts').value);
+            const I = parseFloat(document.getElementById('vdAmps').value);
+            const L = parseFloat(document.getElementById('vdLen').value);
+            const A = parseFloat(document.getElementById('vdCross').value);
+            const rho = 0.0175;
+            if (isNaN(V) || isNaN(I) || isNaN(L) || V <= 0) return;
+
+            const vDrop = (2 * L * I * rho) / A;
+            const vEnd = Math.max(0, V - vDrop);
+            const dropPct = (vDrop / V) * 100;
+            const recCross = (2 * L * I * rho) / (V * 0.03);
+
+            const resDiv = document.getElementById('vdResult');
+            resDiv.style.display = 'block';
+            resDiv.innerHTML = `
+                ⚡ <strong>نتائج تحليل هبوط الجهد:</strong><br>
+                - مقدار هبوط الجهد: <strong style="color:${dropPct > 5 ? 'var(--danger)' : 'var(--warning)'};">${vDrop.toFixed(2)} فولت (${dropPct.toFixed(1)}%)</strong><br>
+                - الجهد الواصل لنهاية الخط: <strong style="color:var(--success); font-size:1.1rem;">${vEnd.toFixed(2)} فولت</strong><br>
+                - التوصية الهندسية (لهبوط أقل من 3%): استخدم سلكاً نحاسياً بمقطع لا يقل عن <strong>${recCross.toFixed(1)} mm²</strong>.
+            `;
+        }
+
+        // 2. محول الأنظمة العددية الفوري
+        function convertNumber(source, val) {
+            val = val.trim();
+            if (!val) {
+                ['numDec','numBin','numHex','numOct'].forEach(id => document.getElementById(id).value = '');
+                return;
+            }
+            let decValue = NaN;
+            if (source === 'dec') decValue = parseInt(val, 10);
+            else if (source === 'bin') decValue = parseInt(val, 2);
+            else if (source === 'hex') decValue = parseInt(val, 16);
+            else if (source === 'oct') decValue = parseInt(val, 8);
+            if (isNaN(decValue)) return;
+
+            if (source !== 'dec') document.getElementById('numDec').value = decValue.toString(10);
+            if (source !== 'bin') document.getElementById('numBin').value = decValue.toString(2);
+            if (source !== 'hex') document.getElementById('numHex').value = decValue.toString(16).toUpperCase();
+            if (source !== 'oct') document.getElementById('numOct').value = decValue.toString(8);
+        }
+
+        // 3. دفتر الملاحظات الميداني
+        function saveNote() {
+            const title = document.getElementById('noteTitle').value.trim();
+            const content = document.getElementById('noteContent').value.trim();
+            if (!title || !content) { alert("يرجى إدخال العنوان والتفاصيل!"); return; }
+            let notes = JSON.parse(localStorage.getItem('tech_field_notes')) || [];
+            notes.unshift({ id: Date.now(), title, content, date: new Date().toLocaleString('ar-IQ') });
+            localStorage.setItem('tech_field_notes', JSON.stringify(notes));
+            document.getElementById('noteTitle').value = '';
+            document.getElementById('noteContent').value = '';
+            loadNotes();
+        }
+
+        function loadNotes() {
+            const container = document.getElementById('notesContainer');
+            let notes = JSON.parse(localStorage.getItem('tech_field_notes')) || [];
+            if (notes.length === 0) { container.innerHTML = `<p style="color:var(--text-secondary); text-align:center;">لا توجد ملاحظات محفوظة حالياً.</p>`; return; }
+            container.innerHTML = notes.map(n => `
+                <div class="note-item">
+                    <div class="note-header"><span>📅 ${n.date}</span><button class="delete-note-btn" onclick="deleteNote(${n.id})">حذف</button></div>
+                    <div style="font-weight:bold; margin-bottom:4px;">${n.title}</div>
+                    <div style="white-space:pre-wrap; font-size:0.9rem;">${n.content}</div>
+                </div>
+            `).join('');
+        }
+
+        function deleteNote(id) {
+            let notes = (JSON.parse(localStorage.getItem('tech_field_notes')) || []).filter(n => n.id !== id);
+            localStorage.setItem('tech_field_notes', JSON.stringify(notes));
+            loadNotes();
+        }
+
+        function exportNotesTxt() {
+            let notes = JSON.parse(localStorage.getItem('tech_field_notes')) || [];
+            if (!notes.length) { alert("لا توجد ملاحظات للتصدير!"); return; }
+            let txt = "=== دفتر ملاحظات المهندس الميداني | المهندس ناجي المفرجي ===\r\n\r\n";
+            notes.forEach((n, i) => { txt += `[#${i+1}] ${n.date} - ${n.title}\r\n${n.content}\r\n-------------------\r\n`; });
+            const blob = new Blob([txt], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Field_Notes_${new Date().toISOString().slice(0,10)}.txt`;
+            a.click();
+        }
+
+        // 4. توثيق VLANs
+        function saveVlanPort() {
+            const port = document.getElementById('vlanPort').value.trim();
+            const vlan = document.getElementById('vlanName').value.trim();
+            const mode = document.getElementById('vlanMode').value;
+            const desc = document.getElementById('vlanDesc').value.trim() || "-";
+            if (!port || !vlan) { alert("أدخل البورت واسم الـ VLAN!"); return; }
+            let list = JSON.parse(localStorage.getItem('tech_vlan_ports')) || [];
+            list.unshift({ id: Date.now(), port, vlan, mode, desc });
+            localStorage.setItem('tech_vlan_ports', JSON.stringify(list));
+            document.getElementById('vlanPort').value = '';
+            document.getElementById('vlanName').value = '';
+            document.getElementById('vlanDesc').value = '';
+            loadVlanPorts();
+        }
+
+        function loadVlanPorts() {
+            const container = document.getElementById('vlanTableContainer');
+            let list = JSON.parse(localStorage.getItem('tech_vlan_ports')) || [];
+            if (!list.length) { container.innerHTML = `<p style="color:var(--text-secondary); text-align:center;">لا توجد بورتات موثقة.</p>`; return; }
+            let rows = list.map(i => `<tr><td><code>${i.port}</code></td><td><strong>${i.vlan}</strong></td><td>${i.mode}</td><td>${i.desc}</td><td><button class="delete-note-btn" onclick="deleteVlanPort(${i.id})">حذف</button></td></tr>`).join('');
+            container.innerHTML = `<table class="tech-table"><thead><tr><th>البورت</th><th>VLAN</th><th>النوع</th><th>الوصف</th><th>حذف</th></tr></thead><tbody>${rows}</tbody></table>`;
+        }
+
+        function deleteVlanPort(id) {
+            let list = (JSON.parse(localStorage.getItem('tech_vlan_ports')) || []).filter(i => i.id !== id);
+            localStorage.setItem('tech_vlan_ports', JSON.stringify(list));
+            loadVlanPorts();
+        }
+
+        // الحاسبات الهندسية الأخرى
+        function calculateSubnet() {
+            const cidr = parseInt(document.getElementById('subnetPrefix').value);
+            const total = Math.pow(2, 32 - cidr);
+            const usable = total > 2 ? total - 2 : total;
+            const res = document.getElementById('subnetResult');
+            res.style.display = 'block';
+            res.innerHTML = `إجمالي العناوين: <strong>${total}</strong> | الأجهزة القابلة للاستخدام: <strong style="color:var(--success);">${usable} جهاز</strong>`;
+        }
+
+        function calculateOhm() {
+            let V = parseFloat(document.getElementById('ohmVoltage').value);
+            let I = parseFloat(document.getElementById('ohmCurrent').value);
+            let R = parseFloat(document.getElementById('ohmResistance').value);
+            const res = document.getElementById('ohmResult');
+            res.style.display = 'block';
+            if (isNaN(V) && !isNaN(I) && !isNaN(R)) res.innerHTML = `⚡ الجهد (V) = <strong style="color:var(--success);">${(I*R).toFixed(2)} فولت</strong>`;
+            else if (isNaN(I) && !isNaN(V) && !isNaN(R)) res.innerHTML = `⚡ التيار (I) = <strong style="color:var(--success);">${(V/R).toFixed(3)} أمبير</strong>`;
+            else if (isNaN(R) && !isNaN(V) && !isNaN(I)) res.innerHTML = `⚡ المقاومة (R) = <strong style="color:var(--success);">${(V/I).toFixed(2)} أوم</strong>`;
+            else res.innerHTML = `<span style="color:var(--danger);">يرجى إدخال قيمتين فقط وترك الثالثة فارغة!</span>`;
+        }
+
+        function calculateLedResistor() {
+            const Vs = parseFloat(document.getElementById('ledVs').value);
+            const Vf = parseFloat(document.getElementById('ledVf').value);
+            const I = parseFloat(document.getElementById('ledCurrent').value) / 1000;
+            const res = document.getElementById('ledResult');
+            res.style.display = 'block';
+            if (Vs <= Vf) { res.innerHTML = "جهد المصدر يجب أن يكون أكبر من جهد الليد!"; return; }
+            res.innerHTML = `💡 المقاومة المطلوبة: <strong style="color:var(--success);">${((Vs - Vf)/I).toFixed(1)} أوم</strong> | القدرة: <strong>${((Vs - Vf)*I).toFixed(2)} واط</strong>`;
+        }
+
+        function calculateResistorColor() {
+            const val = parseInt(document.getElementById('band1').value + document.getElementById('band2').value) * parseFloat(document.getElementById('band3').value);
+            const tol = document.getElementById('band4').value;
+            const res = document.getElementById('resistorResult');
+            res.style.display = 'block';
+            res.innerHTML = `🎨 قيمة المقاومة: <strong style="color:var(--success);">${val >= 1000 ? (val/1000)+' kΩ' : val+' Ω'}</strong> (${tol})`;
+        }
+
+        function calculateDownloadTime() {
+            const gb = parseFloat(document.getElementById('fileSize').value);
+            const mbps = parseFloat(document.getElementById('netSpeed').value);
+            const sec = (gb * 1024 * 8) / mbps;
+            const res = document.getElementById('downloadResult');
+            res.style.display = 'block';
+            res.innerHTML = `📥 الزمن المقدر: <strong style="color:var(--success);">${Math.floor(sec/60)} دقيقة و ${Math.round(sec%60)} ثانية</strong>`;
+        }
+
+        function calculateThroughput() {
+            const bw = parseFloat(document.getElementById('linkBw').value);
+            const ov = parseFloat(document.getElementById('overheadPct').value);
+            const eff = bw * (1 - ov/100);
+            const res = document.getElementById('throughputResult');
+            res.style.display = 'block';
+            res.innerHTML = `📊 السرعة الفعلية الصافية (Effective Throughput): <strong style="color:var(--success);">${eff.toFixed(2)} Mbps</strong>`;
+        }
+
+        function calculatePowerUsage() {
+            const totalW = (parseFloat(document.getElementById('cpuWatts').value)||0) + (parseFloat(document.getElementById('gpuWatts').value)||0) + (parseFloat(document.getElementById('otherWatts').value)||0);
+            const hrs = parseFloat(document.getElementById('runHours').value)||24;
+            const kwhMonth = (totalW * hrs * 30) / 1000;
+            const res = document.getElementById('powerResult');
+            res.style.display = 'block';
+            res.innerHTML = `🔌 الحمل اللحظي: <strong>${totalW}W</strong> | مزود الطاقة الموصى به: <strong style="color:var(--success);">${Math.ceil(totalW*1.3/50)*50}W</strong> | الاستهلاك الشهري: <strong>${kwhMonth.toFixed(1)} kWh</strong>`;
+        }
+
+        function calculateRaid() {
+            const lvl = document.getElementById('raidLevel').value;
+            const cnt = parseInt(document.getElementById('raidCount').value);
+            const sz = parseFloat(document.getElementById('driveSize').value);
+            let cap = lvl === "0" ? cnt*sz : (lvl === "1" ? sz : (lvl === "5" ? (cnt-1)*sz : (cnt/2)*sz));
+            const res = document.getElementById('raidResult');
+            res.style.display = 'block';
+            res.innerHTML = `💽 المساحة الصافية لـ RAID ${lvl}: <strong style="color:var(--success);">${cap.toFixed(1)} TB</strong>`;
+        }
+
+        function calculateCPUPerformance() {
+            const g = parseFloat(document.getElementById('cpuClock').value);
+            const c = parseInt(document.getElementById('cpuCores').value);
+            const ipc = parseFloat(document.getElementById('cpuIpcVal').value);
+            const res = document.getElementById('cpuResult');
+            res.style.display = 'block';
+            res.innerHTML = `💻 الأداء المتعدد الأنوية التقديري: <strong style="color:var(--success);">${Math.round(g*1000*ipc*c).toLocaleString()} MIPS</strong>`;
+        }
+
+        function calculateFiberAll() {
+            const att = document.getElementById('fiberType').value === "single" ? 0.35 : 3.0;
+            const km = parseFloat(document.getElementById('fiberKm').value);
+            const sp = parseInt(document.getElementById('fiberSplices').value)||0;
+            const techBw = parseFloat(document.getElementById('fTech').value);
+            const loss = (km * att) + (sp * 0.1) + 1.0;
+            const res = document.getElementById('fiberResult');
+            res.style.display = 'block';
+            res.innerHTML = `🔦 إجمالي الفقد الضوئي: <strong style="color:var(--warning);">${loss.toFixed(2)} dB</strong> | السرعة الصافية للرابط: <strong style="color:var(--success);">${(techBw*0.9).toFixed(2)} Gbps</strong>`;
+        }
+
+        function calculateBackupStorage() {
+            const full = parseFloat(document.getElementById('backupSize').value);
+            const chg = parseFloat(document.getElementById('backupChangeRate').value)/100;
+            const days = parseInt(document.getElementById('backupDays').value);
+            const inc = full + (full * chg * (days - 1));
+            const res = document.getElementById('backupResult');
+            res.style.display = 'block';
+            res.innerHTML = `💾 مساحة Incremental لدورة (${days} أيام): <strong style="color:var(--success);">${inc.toFixed(1)} GB</strong>`;
+        }
+
+        function calculateUpsAll() {
+            const w = parseFloat(document.getElementById('upsLoad').value);
+            const v = parseFloat(document.getElementById('upsVoltage').value);
+            const ah = parseFloat(document.getElementById('upsAh').value);
+            const temp = parseFloat(document.getElementById('bTemp').value);
+            const va = Math.ceil((w * 1.25 / 0.8) / 100) * 100;
+            const hrs = (v * ah * 0.85) / w;
+            const lifeYrs = 5 * (temp > 25 ? Math.pow(0.5, (temp - 25)/10) : 1);
+            const res = document.getElementById('upsResult');
+            res.style.display = 'block';
+            res.innerHTML = `🔋 سعة الـ UPS المطلوبة: <strong>${va} VA</strong> | وقت الإسناد: <strong style="color:var(--success);">${Math.floor(hrs)} ساعة و ${Math.round((hrs%1)*60)} دقيقة</strong> | العمر المتوقع للبطارية: <strong>${lifeYrs.toFixed(1)} سنة</strong>`;
+        }
+
+        function calculateBtuAndCctv() {
+            const w = parseFloat(document.getElementById('btuWatts').value);
+            const cams = parseInt(document.getElementById('cctvCount').value);
+            const days = parseInt(document.getElementById('cctvDays').value);
+            const btu = Math.round(w * 3.412 * 1.3);
+            const cctvTb = ((cams * 1.0 * 1000000 * 24 * 3600 * days) / 8) / Math.pow(1024, 4);
+            const res = document.getElementById('btuCctvResult');
+            res.style.display = 'block';
+            res.innerHTML = `❄️ التبريد المطلوب للسيرفرات: <strong style="color:var(--accent);">${btu.toLocaleString()} BTU/hr (${(btu/12000).toFixed(2)} طن)</strong><br>📹 مساحة تخزين الكاميرات (${cams} كاميرات لـ ${days} يوم): <strong style="color:var(--success);">${cctvTb.toFixed(2)} TB</strong>`;
+        }
+
+        function calculateProjectAndPing() {
+            const pts = parseInt(document.getElementById('cPoints').value);
+            const len = parseFloat(document.getElementById('cLen').value);
+            const cost = parseFloat(document.getElementById('cCost').value);
+            const ping = parseFloat(document.getElementById('pingValue').value);
+            const totalM = pts * len * 1.12;
+            const rolls = Math.ceil(totalM / 305);
+            const pingStatus = ping <= 30 ? "ممتاز جداً ✅" : (ping <= 80 ? "جيد ومستقر 👍" : "بطيء / يوجد تأخير ⚠️");
+            const res = document.getElementById('projPingResult');
+            res.style.display = 'block';
+            res.innerHTML = `📏 إجمالي الكابلات (مع 12% احتياط): <strong>${totalM.toFixed(0)} متر (${rolls} بكرة)</strong> | التكلفة: <strong style="color:var(--success);">${(rolls*cost).toLocaleString()}</strong><br>📶 تقييم زمن الـ Ping (${ping} ms): <strong>${pingStatus}</strong>`;
+        }
+
+        function generatePassword() {
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*!_";
+            const arr = new Uint32Array(16);
+            window.crypto.getRandomValues(arr);
+            document.getElementById('generatedPassOutput').value = Array.from(arr, x => chars[x % chars.length]).join('');
+        }
+
+        async function calculateHash() {
+            const text = document.getElementById('plainTextInput').value;
+            const res = document.getElementById('hashResult');
+            if (!text) { res.style.display = 'none'; return; }
+            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+            const hex = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+            res.style.display = 'block';
+            res.innerHTML = `<strong>SHA-256:</strong> <code style="word-break:break-all; color:var(--success);">${hex}</code>`;
+        }
+
+        // مولد تقارير الصيانة الرسمي
+        function generateReport() {
+            document.getElementById('outClient').innerText = document.getElementById('repClient').value || "غير محدد";
+            document.getElementById('outDevice').innerText = document.getElementById('repDevice').value || "غير محدد";
+            document.getElementById('outFault').innerText = document.getElementById('repFault').value || "غير محدد";
+            document.getElementById('outAction').innerText = document.getElementById('repAction').value || "تم الفحص والمعالجة القياسية";
+            document.getElementById('outCost').innerText = document.getElementById('repCost').value || "-";
+            document.getElementById('repDateOut').innerText = "تاريخ الإصدار: " + new Date().toLocaleString('ar-IQ');
+            document.getElementById('officialReportBox').style.display = 'block';
+        }
+
+        // النسخ الاحتياطي والاستعادة الشاملة JSON
+        function exportFullBackupJSON() {
+            const backupData = {
+                author: "المهندس ناجي المفرجي",
+                exportDate: new Date().toISOString(),
+                notes: JSON.parse(localStorage.getItem('tech_field_notes')) || [],
+                vlans: JSON.parse(localStorage.getItem('tech_vlan_ports')) || []
+            };
+            const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `Naji_Engineering_Backup_${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+        }
+
+        function importFullBackupJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (data.notes) localStorage.setItem('tech_field_notes', JSON.stringify(data.notes));
+                    if (data.vlans) localStorage.setItem('tech_vlan_ports', JSON.stringify(data.vlans));
+                    loadNotes();
+                    loadVlanPorts();
+                    alert("تمت استعادة كافة الملاحظات وبيانات الشبكة بنجاح! ✓");
+                } catch (err) {
+                    alert("خطأ في قراءة ملف النسخة الاحتياطية!");
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        window.onload = function() {
+            loadNotes();
+            loadVlanPorts();
+            generatePassword();
+        };
+
+        function openChapter(chapterId, element) {
+            document.querySelectorAll('.chapter-section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            document.getElementById(chapterId).classList.add('active');
+            element.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            body.getAttribute('data-theme') === 'light' ? body.removeAttribute('data-theme') : body.setAttribute('data-theme', 'light');
+        }
+
+        function copyCode(btn) {
+            const code = btn.nextElementSibling.innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.innerText = "تم النسخ! ✓";
+                btn.style.background = "#22c55e";
+                setTimeout(() => { btn.innerText = "نسخ الكود"; btn.style.background = "rgba(255,255,255,0.12)"; }, 2000);
+            });
+        }
+
+        function searchBook() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const sections = document.querySelectorAll('.chapter-section');
+            if (query === "") {
+                sections.forEach(sec => sec.classList.remove('active'));
+                const activeNav = document.querySelector('.nav-item.active');
+                const targetId = activeNav.getAttribute('onclick').match(/'([^']+)'/)[1];
+                document.getElementById(targetId).classList.add('active');
+                document.querySelectorAll('.card').forEach(c => c.style.display = 'block');
+                return;
+            }
+            sections.forEach(sec => {
+                let hasMatch = false;
+                sec.querySelectorAll('.card').forEach(card => {
+                    if (card.innerText.toLowerCase().includes(query)) { card.style.display = 'block'; hasMatch = true; }
+                    else { card.style.display = 'none'; }
+                });
+                if (hasMatch) sec.classList.add('active'); else sec.classList.remove('active');
+            });
+        }
+
+        // ========= كود الـ PWA المدمج (Service Worker + زر التثبيت) =========
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('PWA Service Worker Registered:', reg.scope))
+                    .catch(err => console.log('SW Registration Notice:', err));
+            });
+        }
+
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const actionsDiv = document.getElementById('topBarActions');
+            const installBtn = document.createElement('button');
+            installBtn.className = 'btn';
+            installBtn.style.borderColor = 'var(--success)';
+            installBtn.style.color = 'var(--success)';
+            installBtn.style.fontWeight = 'bold';
+            installBtn.innerText = '📲 تثبيت التطبيق على الجهاز';
+            installBtn.onclick = async () => {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') installBtn.style.display = 'none';
+                deferredPrompt = null;
+            };
+            actionsDiv.prepend(installBtn);
+        });
+    </script>
+</body>
+</html>
